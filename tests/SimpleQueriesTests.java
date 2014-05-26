@@ -4,7 +4,7 @@ import com.simplequeries.SQUtils.SelectType;
 import junit.framework.TestCase;
 import org.junit.Test;
 
-public class LSQTests extends TestCase{
+public class SimpleQueriesTests extends TestCase{
 
     private String query;
 
@@ -141,6 +141,19 @@ public class LSQTests extends TestCase{
                     .deleteFrom("people")
                     .where("names").in("Jack", "Liz", "Keneth")
                     .and("age").ltOrEq(40)
+                    .buildSQLString()
+            );
+        }
+
+        {
+            query = "DELETE FROM cars " +
+                    "WHERE production BETWEEN 2000 AND 2010 " +
+                    "OR origin = 'USA';";
+
+            assertEquals(query, QueryFactory.newDeleteQuery()
+                    .deleteFrom("cars")
+                    .where("production").between(2000, 2010)
+                    .or("origin").eq("USA")
                     .buildSQLString()
             );
         }

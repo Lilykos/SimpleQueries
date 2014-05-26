@@ -49,11 +49,70 @@ which can be written as:
             .buildSQLString();
             
 (The query may not make much sense, but it examplifies the possibilities here :) )
+
 COUNT(), SUM() BETWEEN, OR and others are also implemented, and you can take a look at the JavaDoc for the specifics.
 
 
 ### CREATE
 
-Some examples about the CREATE clause:
+    CREATE TABLE people(
+    id INT AUTO_INCREMENT NOT NULL,
+    job VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id) );
 
-//todo
+can be written as:
+
+    String query = QueryFactory.newCreateQuery()
+            .createTable("people")
+            .addColumn("id").ofDataType(DataType.INT).autoIncrement().notNull()
+            .addColumn("job").ofDataType(DataType.VARCHAR(100)).notNull()
+            .primaryKey("id")
+            .buildSQLString();
+
+Take into consideration the data type argument. For the data types that need no specified size (INT, DATE, etc) we use standard Objects.
+For VARCHAR (and others to come, like BIGINT) we use a method "masked" as an object which helps us provide the size.
+
+### INSERT
+
+    INSERT INTO people( name, age, job )
+    VALUES( 'Ilias', 23, 'Developer' ), ('John', 20, 'Student');
+
+can be written as:
+
+    String query = QueryFactory.newInsertQuery()
+            .insertInto("people")
+            .onColumns("name", "age", "job")
+            .values("Ilias", 23, "Developer")
+            .values("John", 20, "Student")
+            .buildSQLString();
+
+
+### DELETE
+
+This works in a similar way to the SELECT clause, and a number of methods is the same.
+
+    DELETE FROM people
+    WHERE names IN ('Jack', 'Liz', 'Keneth')
+    AND age <= '40';
+
+can be written as:
+
+    String query = QueryFactory.newDeleteQuery()
+            .deleteFrom("people")
+            .where("names").in("Jack", "Liz", "Keneth")
+            .and("age").ltOrEq(40)
+            .buildSQLString();
+
+also:
+
+    DELETE FROM cars
+    WHERE production BETWEEN 2000 AND 2010
+    OR origin = 'USA';
+
+can be:
+
+    String query = QueryFactory.newDeleteQuery()
+            .deleteFrom("cars")
+            .where("production").between(2000, 2010)
+            .or("origin").eq("USA")
+            .buildSQLString();
