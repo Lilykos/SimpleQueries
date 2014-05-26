@@ -1,11 +1,13 @@
 # Simple Queries
 
+
 This is a really simple library that tries to make it easier to write SQL queries (specifically MySQL) in Java.
 The syntax is partially inspired by [JOOQ](http://jooq.org/), although it does NOT do all the nifty things that JOOQ does. It simply helps the developer to create queries in a Java "method style", which makes it easier to keep track of what's going on and avoid the usual mistakes of String concat, keeping track of brackets and semicolons etc...
 
 It is a work in progress and although many features are implemented, it is not yet quite ready for very complicated queries.
 
 ## How it works:
+
 
 Basically the library provides a QueryFactory instance which creates different query types, each one containing the right methods for the specific query. Let's see some examples:
 
