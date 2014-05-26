@@ -54,6 +54,26 @@ public class LSQTests extends TestCase{
                     .buildSQLString()
             );
         }
+
+        {
+            query = "SELECT artist, age FROM artists " +
+                    "WHERE artist IN ('John', 'George', 'Paul', 'Ringo') " +
+                    "AND (SELECT album FROM british_albums WHERE sales > '1000000') LIKE '%Road' " +
+                    "ORDER BY age;";
+
+            assertEquals(query, QueryFactory.newSelectQuery(SelectType.EXTERNAL)
+                    .select("artist", "age")
+                    .from("artists")
+                    .where("artist").in("John", "George", "Paul", "Ringo")
+                    .and(QueryFactory.newSelectQuery(SelectType.NESTED)
+                            .select("album")
+                            .from("british_albums")
+                            .where("sales").gt(1000000)
+                            .buildSQLString()).like("%Road")
+                    .orderBy("age")
+                    .buildSQLString()
+            );
+        }
     }
 
     @Test
@@ -109,12 +129,6 @@ public class LSQTests extends TestCase{
                     .buildSQLString()
             );
         }
-
-        String query = QueryFactory.newSelectQuery(SelectType.EXTERNAL)
-                .select("*")
-                .from("countries")
-                .where("population").gtOrEq(1000000)
-                .buildSQLString();
     }
 
     @Test
