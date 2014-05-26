@@ -49,6 +49,7 @@ which can be written as:
             .buildSQLString();
             
 (The query may not make much sense, but it examplifies the possibilities here :) )
+COUNT(), SUM() BETWEEN, OR and others are also implemented, and you can take a look at the JavaDoc for the specifics.
 
 
 ### CREATE
