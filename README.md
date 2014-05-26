@@ -29,7 +29,7 @@ can be written as:
 
 The __SelectType.EXTERNAL__ is given as a parameter to identify external or nested query. That makes it very easy to translate queries like:
 
-    SELECT artist, age FROM artists
+    SELECT artist, age, album FROM artists
     WHERE artist IN ('John', 'George', 'Paul', 'Ringo')
     AND (SELECT album FROM british_albums WHERE sales > '1000000') LIKE '%Road'
     ORDER BY age;
@@ -37,7 +37,7 @@ The __SelectType.EXTERNAL__ is given as a parameter to identify external or nest
 which can be written as:
 
     String query = QueryFactory.newSelectQuery(SelectType.EXTERNAL)
-            .select("artist", "age")
+            .select("artist", "age", "album")
             .from("artists")
             .where("artist").in("John", "George", "Paul", "Ringo")
             .and(QueryFactory.newSelectQuery(SelectType.NESTED)
@@ -48,6 +48,8 @@ which can be written as:
             .orderBy("age")
             .buildSQLString();
             
+(The query may not make much sense, but it examplifies the possibilities here :) )
+
 
 ### CREATE
 
