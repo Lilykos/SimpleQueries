@@ -6,9 +6,11 @@ The syntax is partially inspired by [JOOQ](http://jooq.org/), although it does N
 
 It is a work in progress and although many features are implemented, it is not yet quite ready for very complicated queries.
 
+
 ## How it works:
 
 Basically the library provides a __QueryFactory__ instance which creates different query types, each one containing the right methods for the specific query. Let's see some examples:
+
 
 ### SELECT
 
@@ -41,7 +43,14 @@ can be written as:
             .and(QueryFactory.newSelectQuery(SelectType.NESTED)
                     .select("album")
                     .from("british_albums")
-                     .where("sales").gt(1000000)
-                     .buildSQLString()).like("%Road")
+                    .where("sales").gt(1000000)
+                    .buildSQLString()).like("%Road")
             .orderBy("age")
             .buildSQLString();
+            
+
+### CREATE
+
+Some examples about the CREATE clause:
+
+//todo
