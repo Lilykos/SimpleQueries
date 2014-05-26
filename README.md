@@ -34,7 +34,7 @@ The __SelectType.EXTERNAL__ is given as a parameter to identify external or nest
     AND (SELECT album FROM british_albums WHERE sales > '1000000') LIKE '%Road'
     ORDER BY age;
 
-can be written as:
+which can be written as:
 
     String query = QueryFactory.newSelectQuery(SelectType.EXTERNAL)
             .select("artist", "age")
