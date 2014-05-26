@@ -28,7 +28,7 @@ public class InsertQuery {
         for (String column : columns) {
             query.append(column).append(", ");
         }
-        query.delete(query.lastIndexOf(", "), query.length()).append(")").append(" VALUES");
+        query.delete(query.lastIndexOf(", "), query.length()).append(" )").append(" VALUES");
         return this;
     }
 
@@ -49,7 +49,7 @@ public class InsertQuery {
                 query.append(value).append(", ");
             }
         }
-        query.delete(query.lastIndexOf(", "), query.length()).append("), ");
+        query.delete(query.lastIndexOf(", "), query.length()).append(" ), ");
         return this;
     }
 

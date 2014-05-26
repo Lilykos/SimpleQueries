@@ -1,8 +1,8 @@
+import com.simplequeries.QueryFactory;
 import com.simplequeries.SQUtils.DataType;
 import com.simplequeries.SQUtils.SelectType;
-import com.simplequeries.QueryFactory;
-import org.junit.Test;
 import junit.framework.TestCase;
+import org.junit.Test;
 
 public class LSQTests extends TestCase{
 
@@ -88,8 +88,8 @@ public class LSQTests extends TestCase{
     @Test
     public void testInsert() {
         {
-            query = "INSERT INTO people( name, age, job) " +
-                    "VALUES( 'Ilias', 23, 'Developer');";
+            query = "INSERT INTO people( name, age, job ) " +
+                    "VALUES( 'Ilias', 23, 'Developer' );";
             assertEquals(query, QueryFactory.newInsertQuery()
                     .insertInto("people")
                     .onColumns("name", "age", "job")
@@ -99,8 +99,8 @@ public class LSQTests extends TestCase{
         }
 
         {
-            query = "INSERT INTO animals( name, continent) " +
-                    "VALUES( 'lion', 'africa'), ( 'bear', 'america');";
+            query = "INSERT INTO animals( name, continent ) " +
+                    "VALUES( 'lion', 'africa' ), ( 'bear', 'america' );";
             assertEquals(query, QueryFactory.newInsertQuery()
                     .insertInto("animals")
                     .onColumns("name", "continent")
@@ -109,6 +109,12 @@ public class LSQTests extends TestCase{
                     .buildSQLString()
             );
         }
+
+        String query = QueryFactory.newSelectQuery(SelectType.EXTERNAL)
+                .select("*")
+                .from("countries")
+                .where("population").gtOrEq(1000000)
+                .buildSQLString();
     }
 
     @Test
