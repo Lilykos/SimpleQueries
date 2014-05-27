@@ -38,7 +38,7 @@ The __SelectType.EXTERNAL__ is given as a parameter to identify external or nest
     SELECT artist, age, album FROM artists
     WHERE artist IN ('John', 'George', 'Paul', 'Ringo')
     AND (SELECT album FROM british_albums WHERE sales > '1000000') LIKE '%Road'
-    ORDER BY age;
+    ORDER BY age DESC;
 
 which can be written as:
 
@@ -51,7 +51,7 @@ which can be written as:
                     .from("british_albums")
                     .where("sales").gt(1000000)
                     .buildSQLString()).like("%Road")
-            .orderBy("age")
+            .orderBy("age", Order.DESC)
             .buildSQLString();
             
 (The query may not make much sense, but it examplifies the possibilities here :) )

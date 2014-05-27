@@ -1,5 +1,6 @@
 import com.simplequeries.QueryFactory;
 import com.simplequeries.SQUtils.DataType;
+import com.simplequeries.SQUtils.Order;
 import com.simplequeries.SQUtils.SelectType;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -23,13 +24,13 @@ public class SimpleQueriesTests extends TestCase{
                 "FROM members " +
                 "WHERE ppl IN ('John', 'George', 'Paul', 'Ringo') " +
                 "OR age >= '30' " +
-                "ORDER BY ppl;";
+                "ORDER BY ppl DESC;";
         assertEquals(query, QueryFactory.newSelectQuery(SelectType.EXTERNAL)
                 .select("people AS ppl", "age")
                 .from("members")
                 .where("ppl").in("John", "George", "Paul", "Ringo")
                 .or("age").gtOrEq(30)
-                .orderBy("ppl")
+                .orderBy("ppl", Order.DESC)
                 .buildSQLString());
 
         query = "SELECT * " +
@@ -48,7 +49,7 @@ public class SimpleQueriesTests extends TestCase{
         query = "SELECT artist, age FROM artists " +
                 "WHERE artist IN ('John', 'George', 'Paul', 'Ringo') " +
                 "AND (SELECT album FROM british_albums WHERE sales > '1000000') LIKE '%Road' " +
-                "ORDER BY age;";
+                "ORDER BY age ASC;";
         assertEquals(query, QueryFactory.newSelectQuery(SelectType.EXTERNAL)
                 .select("artist", "age")
                 .from("artists")
@@ -58,7 +59,7 @@ public class SimpleQueriesTests extends TestCase{
                         .from("british_albums")
                         .where("sales").gt(1000000)
                         .buildSQLString()).like("%Road")
-                .orderBy("age")
+                .orderBy("age", Order.ASC)
                 .buildSQLString());
     }
 

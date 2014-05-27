@@ -1,5 +1,6 @@
 package com.simplequeries.SQQuery;
 
+import com.simplequeries.SQUtils.Order;
 import com.simplequeries.SQUtils.SelectType;
 
 public class SelectQuery {
@@ -185,6 +186,23 @@ public class SelectQuery {
 
     /**
      * ORDER BY clause.
+     *
+     * @param columnName the column to be used for the ordering
+     * @param order the order by (ASC/DESC)
+     * @return the updated query object
+     */
+    public SelectQuery orderBy(String columnName, Order order) {
+        query.append(" ORDER BY ").append(columnName);
+        if (order.equals(Order.DESC)) {
+            query.append(" DESC");
+        } else {
+            query.append(" ASC");
+        }
+        return this;
+    }
+
+    /**
+     * ORDER BY clause without specifying ASC/DESC.
      *
      * @param columnName the column to be used for the ordering
      * @return the updated query object
