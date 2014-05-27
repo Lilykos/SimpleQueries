@@ -11,6 +11,12 @@ It is a work in progress and although many features are implemented, it is not y
 
 Basically the library provides a __QueryFactory__ instance which creates different query types, each one containing the right methods for the specific query. Let's see some examples:
 
+### Some things to consider:
+
+* The library does not make any kind of error checking, be it null, or putting the different parts of the query in the right order to be correct. It simply uses the chained methods, in the order that they are called, to create the query String. So the order has to be the right one.
+
+* Currently it supports only MySQL. It can be extended to provide assistance for other dialects like PostgreSQL etc, but right now I want to focus on implementing more capabilities here.
+
 
 ### SELECT
 
