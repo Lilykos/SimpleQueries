@@ -1,9 +1,6 @@
 package com.simplequeries;
 
-import com.simplequeries.SQQuery.CreateQuery;
-import com.simplequeries.SQQuery.DeleteQuery;
-import com.simplequeries.SQQuery.InsertQuery;
-import com.simplequeries.SQQuery.SelectQuery;
+import com.simplequeries.SQQuery.*;
 import com.simplequeries.SQUtils.SelectType;
 
 /**
@@ -27,5 +24,9 @@ public final class QueryFactory {
 
     public static DeleteQuery newDeleteQuery() {
         return new DeleteQuery();
+    }
+
+    public static UpdateQuery newUpdateQuery() {
+        return new UpdateQuery();
     }
 }

@@ -116,3 +116,21 @@ can be:
             .where("production").between(2000, 2010)
             .or("origin").eq("USA")
             .buildSQLString();
+
+
+### UPDATE
+
+Example:
+
+    UPDATE people
+    SET age = '20', name = 'John'
+    WHERE name = 'Unknown';
+
+can be:
+
+    String query = QueryFactory.newUpdateQuery()
+            .update("people")
+            .set("age", 20)
+            .set("name", "John")
+            .where("name").eq("Unknown")
+            .buildSQLString();
