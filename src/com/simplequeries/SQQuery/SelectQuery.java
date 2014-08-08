@@ -139,12 +139,23 @@ public class SelectQuery {
      * @return the updated query object
      */
     public SelectQuery in(String... args) {
-        query.append(" IN (");
-        for (String arg : args) {
-            query.append("\'").append(arg).append("\'").append(", ");
+        if (args.length == 1) {
+            for (String arg : args) {
+                if (arg.startsWith("(")) { // nested select
+                    query.append(" IN ").append(arg);
+                } else { // just single value, same as below
+                    query.append(" IN (").append("\'").append(arg).append("\'").append(")");
+                }
+            }
+            return this;
+        } else {
+            query.append(" IN (");
+            for (String arg : args) {
+                query.append("\'").append(arg).append("\'").append(", ");
+            }
+            query.delete(query.lastIndexOf(", "), query.length()).append(")");
+            return this;
         }
-        query.delete(query.lastIndexOf(", "), query.length()).append(")");
-        return this;
     }
 
     /**
@@ -229,7 +240,7 @@ public class SelectQuery {
      * @return the updated query object
      */
     public SelectQuery having() {
-        query.append(" HAVING ");
+        query.append(" HAVING");
         return this;
     }
 

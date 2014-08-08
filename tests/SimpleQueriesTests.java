@@ -20,6 +20,7 @@ public class SimpleQueriesTests extends TestCase{
                 .groupBy("population")
                 .buildSQLString());
 
+
         query = "SELECT people AS ppl, age " +
                 "FROM members " +
                 "WHERE ppl IN ('John', 'George', 'Paul', 'Ringo') " +
@@ -33,6 +34,7 @@ public class SimpleQueriesTests extends TestCase{
                 .orderBy("ppl", Order.DESC)
                 .buildSQLString());
 
+
         query = "SELECT * " +
                 "FROM countries " +
                 "WHERE (SELECT name FROM countryNames WHERE name LIKE 'G%');";
@@ -45,6 +47,7 @@ public class SimpleQueriesTests extends TestCase{
                         .where("name").like("G%")
                         .buildSQLString())
                 .buildSQLString());
+
 
         query = "SELECT artist, age FROM artists " +
                 "WHERE artist IN ('John', 'George', 'Paul', 'Ringo') " +
@@ -60,6 +63,32 @@ public class SimpleQueriesTests extends TestCase{
                         .where("sales").gt(1000000)
                         .buildSQLString()).like("%Road")
                 .orderBy("age", Order.ASC)
+                .buildSQLString());
+
+
+        query = "SELECT id, name " +
+                "FROM catalogue " +
+                "WHERE name IN (SELECT name " +
+                    "FROM catalogue " +
+                    "GROUP BY name " +
+                    "HAVING COUNT(name) > '1');";
+        assertEquals(query, QueryFactory.newSelectQuery(SelectType.EXTERNAL)
+                .select("id", "name")
+                .from("catalogue")
+                .where("name").in(QueryFactory.newSelectQuery(SelectType.NESTED)
+                        .select("name")
+                        .from("catalogue")
+                        .groupBy("name")
+                        .having().count("name").gt(1)
+                        .buildSQLString())
+                .buildSQLString());
+
+
+        query = "SELECT name FROM names WHERE name IN ('John');";
+        assertEquals(query, QueryFactory.newSelectQuery(SelectType.EXTERNAL)
+                .select("name")
+                .from("names")
+                .where("name").in("John")
                 .buildSQLString());
     }
 
