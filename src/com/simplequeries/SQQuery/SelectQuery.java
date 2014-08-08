@@ -213,6 +213,27 @@ public class SelectQuery {
     }
 
     /**
+     * LIMIT clause.
+     *
+     * @param limit amount
+     * @return the updated query object
+     */
+    public SelectQuery limit(Object limit) {
+        query.append(" LIMIT ").append(limit);
+        return this;
+    }
+
+    /**
+     * HAVING clause.
+     *
+     * @return the updated query object
+     */
+    public SelectQuery having() {
+        query.append(" HAVING ");
+        return this;
+    }
+
+    /**
      * Builds the SQL string.
      * @return the SQL string
      */

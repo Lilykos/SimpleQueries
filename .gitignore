@@ -1,6 +1,6 @@
 # Intellij
+out/
 .idea/
-.out/
 *.iml
 *.iws
 *.jar
