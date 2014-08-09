@@ -21,15 +21,22 @@ public class SimpleQueriesTests extends TestCase{
                 .buildSQLString());
 
 
+        query = "SELECT COUNT(*) FROM database;";
+        assertEquals(query, QueryFactory.newSelectQuery(SelectType.EXTERNAL)
+                .select().count("*")
+                .from("database")
+                .buildSQLString());
+
+
         query = "SELECT people AS ppl, age " +
                 "FROM members " +
-                "WHERE ppl IN ('John', 'George', 'Paul', 'Ringo') " +
+                "WHERE ppl NOT IN ('John', 'George', 'Paul', 'Ringo') " +
                 "OR age >= '30' " +
                 "ORDER BY ppl DESC;";
         assertEquals(query, QueryFactory.newSelectQuery(SelectType.EXTERNAL)
                 .select("people AS ppl", "age")
                 .from("members")
-                .where("ppl").in("John", "George", "Paul", "Ringo")
+                .where("ppl").not().in("John", "George", "Paul", "Ringo")
                 .or("age").gtOrEq(30)
                 .orderBy("ppl", Order.DESC)
                 .buildSQLString());

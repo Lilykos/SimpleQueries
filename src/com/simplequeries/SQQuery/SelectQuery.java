@@ -18,9 +18,9 @@ public class SelectQuery {
         this.selectType = selectType;
 
         if (selectType.equals(SelectType.EXTERNAL)) {
-            query.append("SELECT ");
+            query.append("SELECT");
         } else {
-            query.append("(SELECT ");
+            query.append("(SELECT");
         }
     }
 
@@ -32,10 +32,13 @@ public class SelectQuery {
      * @return the updated query object
      */
     public SelectQuery select(String... selectArgs) {
-        for (String select : selectArgs) {
-            query.append(select).append(", ");
+        if (selectArgs.length == 0) {
+            return this;
         }
-        query.delete(query.lastIndexOf(", "), query.length());
+        for (String select : selectArgs) {
+            query.append(" ").append(select).append(",");
+        }
+        query.delete(query.lastIndexOf(","), query.length());
         return this;
     }
 
@@ -96,8 +99,8 @@ public class SelectQuery {
      *      ltOrEq: less than or equals ( <= )
      *      gtOrEq: greater than or equals ( >= )
      */
-    public SelectQuery eq(String arg) { return insertComparison(" = ", arg); }
-    public SelectQuery notEq(String arg) { return insertComparison(" <!= ", arg); }
+    public SelectQuery eq(Object arg) { return insertComparison(" = ", arg); }
+    public SelectQuery notEq(Object arg) { return insertComparison(" <!= ", arg); }
     public SelectQuery gt(Object arg) { return insertComparison(" > ", arg); }
     public SelectQuery lt(Object arg) { return insertComparison(" < ", arg); }
     public SelectQuery gtOrEq(Object arg) { return insertComparison(" >= ", arg); }
@@ -241,6 +244,16 @@ public class SelectQuery {
      */
     public SelectQuery having() {
         query.append(" HAVING");
+        return this;
+    }
+
+    /**
+     * NOT clause.
+     *
+     * @return the updated query object
+     */
+    public SelectQuery not() {
+        query.append(" NOT");
         return this;
     }
 

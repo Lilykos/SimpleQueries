@@ -31,8 +31,8 @@ public class DeleteQuery {
      *      ltOrEq: less than or equals ( <= )
      *      gtOrEq: greater than or equals ( >= )
      */
-    public DeleteQuery eq(String arg) { return insertComparison(" = ", arg); }
-    public DeleteQuery notEq(String arg) { return insertComparison(" <!= ", arg); }
+    public DeleteQuery eq(Object arg) { return insertComparison(" = ", arg); }
+    public DeleteQuery notEq(Object arg) { return insertComparison(" <!= ", arg); }
     public DeleteQuery gt(Object arg) { return insertComparison(" > ", arg); }
     public DeleteQuery lt(Object arg) { return insertComparison(" < ", arg); }
     public DeleteQuery gtOrEq(Object arg) { return insertComparison(" >= ", arg); }
@@ -74,12 +74,23 @@ public class DeleteQuery {
      * @return the updated query object
      */
     public DeleteQuery in(String... args) {
-        query.append(" IN (");
-        for (String arg : args) {
-            query.append("\'").append(arg).append("\'").append(", ");
+        if (args.length == 1) {
+            for (String arg : args) {
+                if (arg.startsWith("(")) { // nested select
+                    query.append(" IN ").append(arg);
+                } else { // just single value, same as below
+                    query.append(" IN (").append("\'").append(arg).append("\'").append(")");
+                }
+            }
+            return this;
+        } else {
+            query.append(" IN (");
+            for (String arg : args) {
+                query.append("\'").append(arg).append("\'").append(", ");
+            }
+            query.delete(query.lastIndexOf(", "), query.length()).append(")");
+            return this;
         }
-        query.delete(query.lastIndexOf(", "), query.length()).append(")");
-        return this;
     }
 
     /**
@@ -105,6 +116,16 @@ public class DeleteQuery {
     public DeleteQuery between(Object least, Object most) {
         query.append(" BETWEEN ").append(least);
         and(most.toString());
+        return this;
+    }
+
+    /**
+     * NOT clause.
+     *
+     * @return the updated query object
+     */
+    public DeleteQuery not() {
+        query.append(" NOT");
         return this;
     }
 
