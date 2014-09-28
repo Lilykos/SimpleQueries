@@ -100,7 +100,7 @@ public class SelectQuery {
      *      gtOrEq: greater than or equals ( >= )
      */
     public SelectQuery eq(Object arg) { return insertComparison(" = ", arg); }
-    public SelectQuery notEq(Object arg) { return insertComparison(" <!= ", arg); }
+    public SelectQuery notEq(Object arg) { return insertComparison(" != ", arg); }
     public SelectQuery gt(Object arg) { return insertComparison(" > ", arg); }
     public SelectQuery lt(Object arg) { return insertComparison(" < ", arg); }
     public SelectQuery gtOrEq(Object arg) { return insertComparison(" >= ", arg); }

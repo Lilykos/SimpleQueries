@@ -32,7 +32,7 @@ public class DeleteQuery {
      *      gtOrEq: greater than or equals ( >= )
      */
     public DeleteQuery eq(Object arg) { return insertComparison(" = ", arg); }
-    public DeleteQuery notEq(Object arg) { return insertComparison(" <!= ", arg); }
+    public DeleteQuery notEq(Object arg) { return insertComparison(" != ", arg); }
     public DeleteQuery gt(Object arg) { return insertComparison(" > ", arg); }
     public DeleteQuery lt(Object arg) { return insertComparison(" < ", arg); }
     public DeleteQuery gtOrEq(Object arg) { return insertComparison(" >= ", arg); }

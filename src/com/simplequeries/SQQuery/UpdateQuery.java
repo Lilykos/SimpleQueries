@@ -53,7 +53,7 @@ public class UpdateQuery {
      *      gtOrEq: greater than or equals ( >= )
      */
     public UpdateQuery eq(Object arg) { return insertComparison(" = ", arg); }
-    public UpdateQuery notEq(Object arg) { return insertComparison(" <!= ", arg); }
+    public UpdateQuery notEq(Object arg) { return insertComparison(" != ", arg); }
     public UpdateQuery gt(Object arg) { return insertComparison(" > ", arg); }
     public UpdateQuery lt(Object arg) { return insertComparison(" < ", arg); }
     public UpdateQuery gtOrEq(Object arg) { return insertComparison(" >= ", arg); }
