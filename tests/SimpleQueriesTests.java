@@ -78,7 +78,7 @@ public class SimpleQueriesTests extends TestCase{
                 "WHERE name IN (SELECT name " +
                     "FROM catalogue " +
                     "GROUP BY name " +
-                    "HAVING COUNT(name) > '1');";
+                    "HAVING COUNT(name) != '1');";
         assertEquals(query, QueryFactory.newSelectQuery(SelectType.EXTERNAL)
                 .select("id", "name")
                 .from("catalogue")
@@ -86,7 +86,7 @@ public class SimpleQueriesTests extends TestCase{
                         .select("name")
                         .from("catalogue")
                         .groupBy("name")
-                        .having().count("name").gt(1)
+                        .having().count("name").notEq(1)
                         .buildSQLString())
                 .buildSQLString());
 
