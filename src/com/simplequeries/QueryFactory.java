@@ -1,5 +1,6 @@
 package com.simplequeries;
 
+import com.simplequeries.SQConnection.Connection;
 import com.simplequeries.SQQuery.*;
 import com.simplequeries.SQUtils.SelectType;
 
@@ -28,5 +29,10 @@ public final class QueryFactory {
 
     public static UpdateQuery newUpdateQuery() {
         return new UpdateQuery();
+    }
+
+    // Connection info
+    public static Connection newConnection(String url, String db,String username, String passwd) {
+        return new Connection(url, db, username, passwd);
     }
 }

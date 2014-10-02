@@ -1,7 +1,12 @@
 package com.simplequeries.SQQuery;
 
+import com.simplequeries.SQConnection.Connection;
+import com.simplequeries.SQExecutor.SQLExecutor;
+import com.simplequeries.SQResults.SQResultSet;
 import com.simplequeries.SQUtils.Order;
 import com.simplequeries.SQUtils.SelectType;
+
+import java.sql.SQLException;
 
 public class SelectQuery {
 
@@ -266,5 +271,16 @@ public class SelectQuery {
             return query.append(";").toString();
         }
         return query.append(")").toString();
+    }
+
+    /**
+     * Executes the query and returns a SQResultSet object,
+     * containing the data requested.
+     * @param connection a connection object, that contains the necessary info
+     *                   to allow the connection.
+     * @return the SQResultSet object.
+     */
+    public SQResultSet executeOnConnection(Connection connection) throws SQLException, ClassNotFoundException {
+        return SQLExecutor.execute(buildSQLString(), connection);
     }
 }

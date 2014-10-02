@@ -7,7 +7,7 @@ The syntax is partially inspired by [JOOQ](http://jooq.org/), although it does N
 It is a work in progress and although many features are implemented, it is not yet quite ready for very complicated queries.
 
 
-## How it works:
+## How it works - Query Construction:
 
 Basically the library provides a __QueryFactory__ instance which creates different query types, each one containing the right methods for the specific query. Let's see some examples:
 
@@ -15,7 +15,7 @@ Basically the library provides a __QueryFactory__ instance which creates differe
 
 * The library does not make any kind of error checking, be it null, or putting the different parts of the query in the right order to be correct. It simply uses the chained methods, in the order that they are called, to create the query String. So the order has to be the right one.
 
-* Currently it supports only MySQL. It can be extended to provide assistance for other dialects like PostgreSQL etc, but right now I want to focus on implementing more capabilities here.
+* Currently it supports only the MySQL dialect. There are no plans for the time being to add additional languages.
 
 
 ### SELECT
@@ -140,3 +140,25 @@ can be:
             .set("name", "John")
             .where("name").eq("Unknown")
             .buildSQLString();
+
+
+## How it works - Query Execution
+
+You can always use the library in order to create just the queries, and then follow the standard JDBC procedure to create a connection, execute the statement and get the result set.
+However, you can always use the methods available in __SimpleQueries__ to achieve that goal. Let's take a look:
+
+    // First let's create a connection object, to store all the relevant information.
+    // The constructor requires 4 parameters: url, db, username, password.
+    Connection conn = QueryFactory.newConnection("url", "db", "username", "passwd");
+
+Afterwards, we can use the executeOnConnection(Connection conn) method to get an SQResultSet object. This object is a representation of a ResultSet, without the metadata. Instead, it contains just the results of the query, in the form of a HashMap. For example:
+
+    SQResultSet results = QueryFactory.newSelectQuery(SelectType.EXTERNAL)
+                    .select(columnName)
+                    .from(table)
+                    .executeOnConnection(conn);
+    results.fetchOne(); // Returns a hashmap with info: {column1: "...", column2: "...", etc}
+
+You can also ask for a specific column, in a similar way to the one the standard ResultSet uses.
+
+    results.getColumn(columnName); // Returns a list.
